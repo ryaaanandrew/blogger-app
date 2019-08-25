@@ -1,4 +1,6 @@
 const graphql = require('graphql');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const Post = require('../models/post');
 const User = require('../models/user');
 
@@ -67,17 +69,19 @@ const Mutation = new GraphQLObjectType({
           password: { type: new GraphQLNonNull(GraphQLString) },
         },
         async resolve(parent, args) {
-          let user = new User({
-            email: args.email,
-            username: args.username,
-            password: args.password
-          });
-
           const existingUser = await User.findOne({ email: args.email });
           if(existingUser) {
             throw new Error('User already exists');
           }
+
+          const hashedPassword = await bcrypt.hash(args.password, 12);
           
+          let user = new User({
+            email: args.email,
+            username: args.username,
+            password: hashedPassword
+          });
+
           return user.save();
         }
       }
