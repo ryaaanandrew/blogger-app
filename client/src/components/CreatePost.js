@@ -3,13 +3,11 @@ import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
 import { CREATE_POST, getPostsQuery } from '../queries/queries';
 
-
-
 const CreatePost = props => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [error, setError] = useState('')
-  const [createPost, { data }] = useMutation(CREATE_POST); 
+  const [createPost] = useMutation(CREATE_POST); 
 
   const handleSubmit = e => {
     e.preventDefault()

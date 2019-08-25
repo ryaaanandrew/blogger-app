@@ -6,6 +6,7 @@ import NavBar from './components/NavBar';
 import PostList from './components/PostList';
 import CreatePost from './components/CreatePost';
 import PostDetails from './components/PostDetails';
+import SignUp from './components/SignUp';
 
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql'
@@ -20,6 +21,7 @@ function App() {
           <Route path='/' exact component={PostList} />
           <Route path='/createpost' component={CreatePost} />
           <Route path='/post/:id' component={PostDetails} />
+          <Route path='/signup' component={SignUp} />
         </Switch>          
       </BrowserRouter>
     </ApolloProvider>

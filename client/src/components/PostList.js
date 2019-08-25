@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/react-hooks';
 import { getPostsQuery } from '../queries/queries';
 
 const PostList = () => {
-  const { loading, error, data } = useQuery(getPostsQuery);  
+  const { loading, data } = useQuery(getPostsQuery);  
 
   if(loading) return <h1>Loading...</h1>;
 

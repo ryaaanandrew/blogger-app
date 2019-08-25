@@ -66,12 +66,18 @@ const Mutation = new GraphQLObjectType({
           username: { type: new GraphQLNonNull(GraphQLString) },
           password: { type: new GraphQLNonNull(GraphQLString) },
         },
-        resolve(parent, args) {
+        async resolve(parent, args) {
           let user = new User({
             email: args.email,
             username: args.username,
             password: args.password
           });
+
+          const existingUser = await User.findOne({ email: args.email });
+          if(existingUser) {
+            throw new Error('User already exists');
+          }
+          
           return user.save();
         }
       }
