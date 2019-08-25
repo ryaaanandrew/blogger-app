@@ -2,9 +2,12 @@ const express = require('express');
 const graphqlHTTP = require('express-graphql');
 const mongoose = require('mongoose');
 const schema = require('./schema/schema');
+const cors = require('cors')
 
 const app = express();
 const PORT = 3001;
+
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('hello world');
