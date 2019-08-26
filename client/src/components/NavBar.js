@@ -1,15 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { AuthContext } from '../context/authContext';
 
 const NavBar = () => {
+  const { token, logout } = useContext(AuthContext);
+
   return(
     <Wrapper className="wrapper">
       <Nav>
         <NavItem><NavLink to='/'>Home</NavLink></NavItem>
-        <NavItem><NavLink to='/createpost'>Create a post</NavLink></NavItem>
-        <NavItem><NavLink to='/signup'>Sign up</NavLink></NavItem>
-        <NavItem><NavLink to='/login'>Log in</NavLink></NavItem>
+        { token && <NavItem><NavLink to='/createpost'>Create a post</NavLink></NavItem> }
+        { !token&& <NavItem><NavLink to='/signup'>Sign up</NavLink></NavItem> }
+        { !token && <NavItem><NavLink to='/login'>Log in</NavLink></NavItem> }
+        { token && <NavItem onClick={logout}><div>Log out</div></NavItem> }
       </Nav>
     </Wrapper>
   );

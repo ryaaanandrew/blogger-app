@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { LOGIN } from '../queries/queries';
 import { AuthContext } from '../context/authContext';
 
-const Login = () => {
+const Login = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { login }= useContext(AuthContext)
@@ -12,7 +12,8 @@ const Login = () => {
   const handleSubmit = e => {
     e.preventDefault();
     if(email.length >= 3 && password.length >=3) {
-      login(email, password)
+      login(email, password);
+      props.history.push('/');
     }
   };
 
