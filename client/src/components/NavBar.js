@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import { AuthContext } from '../context/authContext';
 
-const NavBar = () => {
+const NavBar = props => {
   const { token, logout } = useContext(AuthContext);
 
   return(
