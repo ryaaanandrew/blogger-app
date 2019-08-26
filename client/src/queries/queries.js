@@ -35,6 +35,17 @@ export const CREATE_USER = gql`
     createUser(email: $email, username: $username, password: $password) {
       email
       username
+      password
+    }
+  }
+`
+
+export const LOGIN = gql`
+  mutation($email: String!, $password: String!) {
+    login(email: $email, password: $password) {
+      userId
+      token
+      expiresIn
     }
   }
 `

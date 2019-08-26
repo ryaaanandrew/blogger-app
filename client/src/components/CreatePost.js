@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
 import { useMutation } from '@apollo/react-hooks';
 import { CREATE_POST, getPostsQuery } from '../queries/queries';
+import { AuthContext } from '../context/authContext';
 
 const CreatePost = props => {
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [error, setError] = useState('')
   const [createPost] = useMutation(CREATE_POST); 
+
+  const context = useContext(AuthContext)
 
   const handleSubmit = e => {
     e.preventDefault()

@@ -9,6 +9,7 @@ const NavBar = () => {
         <NavItem><NavLink to='/'>Home</NavLink></NavItem>
         <NavItem><NavLink to='/createpost'>Create a post</NavLink></NavItem>
         <NavItem><NavLink to='/signup'>Sign up</NavLink></NavItem>
+        <NavItem><NavLink to='/login'>Log in</NavLink></NavItem>
       </Nav>
     </Wrapper>
   );

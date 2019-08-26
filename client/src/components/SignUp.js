@@ -8,26 +8,21 @@ const SignUp = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const [err, setError] = useState('');
+  const [formErrors, setFormErrors] = useState([]);
 
-  const [createUser, { error }] = useMutation(CREATE_USER);
+  const [createUser, { error, data }] = useMutation(CREATE_USER);
+
+  const validateForm = () => {
+    
+  }
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    if(password !== passwordConfirm) {
-      setError('Both password must match');
-      return;
-    }
-
-    createUser({ variables:{ email, username, password } });
-    setEmail('');
-    setUsername('');
-    setPassword('');
-    setPasswordConfirm('');
-    setError('');
+    if(username.length > 6 && password.length > 6 && password === passwordConfirm) {
+      createUser({ variables: { email, username, password } })
+    };
   };
-  
+
   return(
     <Wrapper>
       <Header>Sign Up</Header>  
@@ -46,7 +41,9 @@ const SignUp = () => {
 
         <Label htmlFor="passwordConfirm">password</Label>
         <Input type="password" required name='passwordConfirm' onChange={e => setPasswordConfirm(e.target.value)}/>
-        { err ? <Error>{error}</Error> : null }
+        { formErrors.length > 0 ? 
+          formErrors.map(error => <Error>{error}</Error>)
+          : null }
         <Button>Submit</Button>
       </Form>  
     </Wrapper>

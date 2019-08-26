@@ -4,7 +4,15 @@ const bcrypt = require('bcrypt');
 const Post = require('../models/post');
 const User = require('../models/user');
 
-const { GraphQLSchema, GraphQLObjectType, GraphQLID, GraphQLString, GraphQLList, GraphQLNonNull } = graphql;
+const { 
+  GraphQLSchema, 
+  GraphQLObjectType, 
+  GraphQLID, 
+  GraphQLString, 
+  GraphQLList, 
+  GraphQLNonNull , 
+  GraphQLInt 
+} = graphql;
 
 const PostType = new GraphQLObjectType({
   name: 'Post',
@@ -23,7 +31,16 @@ const UserType = new GraphQLObjectType({
     username: { type: GraphQLString },
     password: { type: GraphQLString },
   })
-})
+});
+
+const AuthData = new GraphQLObjectType({
+  name: 'AuthData',
+  fields: () => ({
+    userId: { type: GraphQLString },
+    token: { type: GraphQLString },
+    expiresIn: { type: GraphQLInt }
+  })
+});
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQuery',
@@ -69,20 +86,44 @@ const Mutation = new GraphQLObjectType({
           password: { type: new GraphQLNonNull(GraphQLString) },
         },
         async resolve(parent, args) {
-          const existingUser = await User.findOne({ email: args.email });
-          if(existingUser) {
-            throw new Error('User already exists');
+          try {
+            const existingUser = await User.findOne({ email: args.email });
+            if(existingUser) {
+              throw new Error('User already exists');
+            }
+            const hashedPassword = await bcrypt.hash(args.password, 12);
+            let user = new User({
+              email: args.email,
+              username: args.username,
+              password: hashedPassword
+            });
+            return user.save();
+          } catch(err) {
+            throw new Error(err)
           }
-
-          const hashedPassword = await bcrypt.hash(args.password, 12);
-          
-          let user = new User({
-            email: args.email,
-            username: args.username,
-            password: hashedPassword
-          });
-
-          return user.save();
+        }
+      },
+      login: {
+        type: AuthData,
+        args: {
+          email: { type: new GraphQLNonNull(GraphQLString) },
+          password: { type: new GraphQLNonNull(GraphQLString) }
+        },
+        async resolve(parent, args) {
+          try {
+            const user = await User.findOne({ email: args.email });
+            if(!user) throw new Error('User does not exist');
+            const isEqual = await bcrypt.compare(args.password, user.password);
+            if(!isEqual) throw new Error('Password or email is incorrect');
+            const token = jwt.sign({ userId: user.username, email: user.email }, '1234567890', { expiresIn: '1h' });
+            return {
+              userId: user.id,
+              token: token,
+              expiresIn: 1
+            };
+          } catch(err) {
+            throw new Error(err)
+          }
         }
       }
     }
