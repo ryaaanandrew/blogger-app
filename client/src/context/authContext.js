@@ -13,11 +13,8 @@ const AuthContextProvider = props => {
     if(sessionStorage.getItem('app-data')) {
       const data = JSON.parse(sessionStorage.getItem('app-data'));
       setUserId(data.userId);
-      setToken(data.token)
-      console.log('token found!')
-    } else {
-      console.log('no token found')
-    }
+      setToken(data.token);
+    };
   });
 
   const login = async (email, password) => {
@@ -25,7 +22,7 @@ const AuthContextProvider = props => {
     const { userId, token } = user.data.login;
     setUserId(userId);
     setToken(token);
-    sessionStorage.setItem('app-data', JSON.stringify({"token": token, "userId": userId}));
+    sessionStorage.setItem('app-data', JSON.stringify({ "token": token, "userId": userId }));
     // set token to session storeage>>protect end routes w/ auth>>use middleware to compare tokens and if matches then let request go through
   };
 

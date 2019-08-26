@@ -1,20 +1,18 @@
 import React, { useState, useContext } from 'react';
-import { useMutation } from '@apollo/react-hooks';
 import styled from 'styled-components';
-import { LOGIN } from '../queries/queries';
 import { AuthContext } from '../context/authContext';
 
 const Login = props => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login }= useContext(AuthContext)
+  const { login }= useContext(AuthContext);
 
   const handleSubmit = e => {
     e.preventDefault();
     if(email.length >= 3 && password.length >=3) {
       login(email, password);
       props.history.push('/');
-    }
+    };
   };
 
   return(
@@ -70,14 +68,14 @@ const Input = styled.input`
   margin-bottom: 1rem;
 `
 
-const Button = styled.button`
-  padding: 1rem 1.5rem;
-`
+// const Button = styled.button`
+//   padding: 1rem 1.5rem;
+// `
 
-const Error = styled.div`
-  background-color: red;
-  color: white;
-  font-size: 2rem;
-  padding: 1rem 1.5rem;
+// const Error = styled.div`
+//   background-color: red;
+//   color: white;
+//   font-size: 2rem;
+//   padding: 1rem 1.5rem;
 
-`
+// `

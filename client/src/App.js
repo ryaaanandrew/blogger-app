@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from 'react';
+import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
@@ -9,7 +9,6 @@ import CreatePost from './components/CreatePost';
 import PostDetails from './components/PostDetails';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
-import { AuthContext } from './context/authContext'; 
 
 const client = new ApolloClient({
   uri: 'http://localhost:3001/graphql'

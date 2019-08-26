@@ -20,6 +20,12 @@ const PostType = new GraphQLObjectType({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
     content: { type: GraphQLString },
+    creator: {
+      type: UserType,
+      resolve(parent, args) {
+        return User.findById( parent.creatorId );
+      }
+    }
   })
 });
 
@@ -68,12 +74,14 @@ const Mutation = new GraphQLObjectType({
         type: PostType,
         args: {
           title: { type: new GraphQLNonNull(GraphQLString) },
-          content: { type: new GraphQLNonNull(GraphQLString) }
+          content: { type: new GraphQLNonNull(GraphQLString) },
+          creatorId: { type: new GraphQLNonNull(GraphQLID) }
         },
         resolve(parent, args) {
           let post = new Post({
             title: args.title,
-            content: args.content
+            content: args.content,
+            creatorId: args.creatorId
           });
           return post.save();
         }

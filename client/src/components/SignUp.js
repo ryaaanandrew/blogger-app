@@ -10,11 +10,7 @@ const SignUp = () => {
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [formErrors, setFormErrors] = useState([]);
 
-  const [createUser, { error, data }] = useMutation(CREATE_USER);
-
-  const validateForm = () => {
-    
-  }
+  const [createUser, { error }] = useMutation(CREATE_USER);
 
   const handleSubmit = e => {
     e.preventDefault();
