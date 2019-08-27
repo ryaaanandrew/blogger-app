@@ -20,6 +20,7 @@ const PostType = new GraphQLObjectType({
     id: { type: GraphQLID },
     title: { type: GraphQLString },
     content: { type: GraphQLString },
+    score: { type: GraphQLInt },
     creator: {
       type: UserType,
       resolve(parent, args) {
@@ -54,14 +55,14 @@ const RootQuery = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(PostType),
       resolve(parent, args) {
-        return Post.find()
+        return Post.find();
       }   
     },
     post: {
       type: PostType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
-        return Post.findById(args.id)
+        return Post.findById(args.id);
       }
     }
   }
@@ -75,7 +76,7 @@ const Mutation = new GraphQLObjectType({
         args: {
           title: { type: new GraphQLNonNull(GraphQLString) },
           content: { type: new GraphQLNonNull(GraphQLString) },
-          creatorId: { type: new GraphQLNonNull(GraphQLID) }
+          creatorId: { type: new GraphQLNonNull(GraphQLString) }
         },
         resolve(parent, args) {
           let post = new Post({

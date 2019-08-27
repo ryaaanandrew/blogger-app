@@ -1,8 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
 import { getPostsQuery } from '../queries/queries';
+import PostListItem from './PostListItem';
 
 const PostList = () => {
   const { loading, data } = useQuery(getPostsQuery);  
@@ -13,7 +13,7 @@ const PostList = () => {
     <Wrapper>
       <h1>Posts</h1>
       <ul>
-        { data.posts.map(post => <Post key={post.id}><Link to={`post/${post.id}`}>{post.title}</Link></Post>) }
+        { data && data.posts.map((post, i) => <PostListItem post={post} index={i} />) }
       </ul>
     </Wrapper>
   );

@@ -9,13 +9,13 @@ const PostDetails = props => {
       id:  props.match.params.id
     }
   });
-
+  
   if(loading){ return <h1>loading...</h1> };
-  if(error){ return <h1>an error has occured...</h1> }
+  if(error){ return <h1>an error has occured...</h1> };
 
   return(
     <Wrapper>
-      <Title>{ data.post.title }</Title>
+      <Title>{ data.post.title }, posted by { data.post.creator.username }</Title>
       <Content>{ data.post.content }</Content>
     </Wrapper>
   );

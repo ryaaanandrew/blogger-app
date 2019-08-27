@@ -6,6 +6,11 @@ export const getPostsQuery = gql`
       id
       title
       content
+      creator {
+        id
+        username
+        email
+      }
     }
   }
 `
@@ -16,16 +21,26 @@ export const GET_POST = gql`
       title
       content
       id
+      creator {
+        id
+        email
+        username
+      }
     }
   }
 `
 
 export const CREATE_POST = gql`
-  mutation ($title: String!, $content: String!) {
-    createPost(title: $title, content: $content) {
+  mutation ($title: String!, $content: String!, $creatorId: String!) {
+    createPost(title: $title, content: $content, creatorId: $creatorId) {
       id
       title
       content
+      creator {
+        id
+        email
+        username
+      }
     }
   }
 `

@@ -10,7 +10,7 @@ const CreatePost = props => {
   const [error, setError] = useState('')
   const [createPost] = useMutation(CREATE_POST); 
 
-  const context = useContext(AuthContext)
+  const { userId } = useContext(AuthContext)
 
   const handleSubmit = e => {
     e.preventDefault()
@@ -18,7 +18,7 @@ const CreatePost = props => {
       setError('Cannot leave field empty');
       return
     }
-    createPost({ variables: { title: title, content: body }, refetchQueries: [{ query: getPostsQuery }] })
+    createPost({ variables: { title: title, content: body, creatorId: userId }, refetchQueries: [{ query: getPostsQuery }] })
     setError('')
     setTitle('');
     setBody('');

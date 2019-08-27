@@ -3,7 +3,7 @@ import { useMutation } from '@apollo/react-hooks';
 import styled from 'styled-components';
 import { CREATE_USER } from '../queries/queries';
 
-const SignUp = () => {
+const SignUp = props => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +17,7 @@ const SignUp = () => {
     if(username.length > 6 && password.length > 6 && password === passwordConfirm) {
       createUser({ variables: { email, username, password } })
     };
+    props.history.push('/');
   };
 
   return(
