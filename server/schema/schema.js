@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const Post = require('../models/post');
 const User = require('../models/user');
+const Comment = require('../models/comment');
 
 const { 
   GraphQLSchema, 
@@ -11,7 +12,7 @@ const {
   GraphQLString, 
   GraphQLList, 
   GraphQLNonNull , 
-  GraphQLInt 
+  GraphQLInt,
 } = graphql;
 
 const PostType = new GraphQLObjectType({
@@ -24,7 +25,22 @@ const PostType = new GraphQLObjectType({
     creator: {
       type: UserType,
       resolve(parent, args) {
-        return User.findById( parent.creatorId );
+        return User.findById(parent.creatorId);
+      }
+    }
+  })
+});
+
+const CommentType = new GraphQLObjectType({
+  name: 'Comment',
+  fields: () => ({
+    postId: { type: GraphQLString },
+    comment: { type: GraphQLString },
+    creatorId: { type: GraphQLString },
+    creator: {
+      type: UserType,
+      resolve(parent, args) {
+        return User.findById(parent.creatorId)
       }
     }
   })
@@ -54,15 +70,34 @@ const RootQuery = new GraphQLObjectType({
   fields: {
     posts: {
       type: new GraphQLList(PostType),
-      resolve(parent, args) {
-        return Post.find();
+      async resolve(parent, args) {
+        try {
+          return Post.find();
+        } catch(err) {
+          throw new Error(err);
+        }
       }   
     },
     post: {
       type: PostType,
       args: { id: { type: GraphQLID } },
-      resolve(parent, args) {
-        return Post.findById(args.id);
+      async resolve(parent, args) {
+        try {
+          return Post.findById(args.id);
+        } catch(err) {
+          throw new Error(err);
+        }
+      }
+    },
+    fetchComments: {
+      type: new GraphQLList(CommentType),
+      args: { postId: { type: GraphQLID }},
+      async resolve(parent, args) {
+        try {
+          return Post.findById(args.postId).distinct("comments");
+        } catch(err) {
+          throw new Error(err);
+        }
       }
     }
   }
@@ -87,6 +122,25 @@ const Mutation = new GraphQLObjectType({
           return post.save();
         }
       },
+      addComment: {
+        type: CommentType,
+        args: {
+          postId: { type: new GraphQLNonNull(GraphQLID) },
+          creatorId: { type: new GraphQLNonNull(GraphQLID) },
+          comment: { type: new GraphQLNonNull(GraphQLString) },
+        },
+        async resolve (parent, args) {
+          const oldResults = await Post.findById(args.postId);
+          const newComment = new Comment({
+            postId: args.postId,
+            creatorId: args.creatorId,
+            comment: args.comment
+          });
+          return results = await Post.findByIdAndUpdate(args.postId, {
+            $set: { comments: [ ...oldResults.comments, newComment] }
+          }, {new: true} );
+        }
+      },
       updateScore: {
         type: PostType,
         args: {
@@ -94,7 +148,7 @@ const Mutation = new GraphQLObjectType({
           score: { type: new GraphQLNonNull(GraphQLInt) }
         },
         resolve(parent, args){
-          return Post.findByIdAndUpdate(args.postId, {$set: { score: args.score }}, {new: true});
+          return Post.findByIdAndUpdate(args.postId, { $set: { score: args.score } }, {new: true});
         } 
       },
       createUser: {

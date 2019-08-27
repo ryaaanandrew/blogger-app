@@ -6,9 +6,10 @@ import { PostContext } from '../context/postContext';
 const PostListItem = props => {
   const { post } = props;
   const {upVote, downVote}= useContext(PostContext);
+  
   return(
     <Wrapper>
-      <div>{ post.score }</div>
+      <Score>{ post.score }</Score>
       <BtnWrapper>
         <Btn onClick={() => upVote(post.id, post.score)}>up</Btn>
         <Btn onClick={() => downVote(post.id, post.score)}>down</Btn>
@@ -28,6 +29,13 @@ const Wrapper = styled.div`
   padding: 1.5rem 2rem;
   border: 1px solid black;  
   display: flex;
+`
+
+const Score = styled.div`
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `
 
 const BtnWrapper = styled.div`

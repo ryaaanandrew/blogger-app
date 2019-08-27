@@ -10,7 +10,7 @@ const CreatePost = props => {
   const [error, setError] = useState('')
   const [createPost] = useMutation(CREATE_POST); 
 
-  const { userId } = useContext(AuthContext)
+  const { userId } = useContext(AuthContext);
 
   const handleSubmit = e => {
     e.preventDefault()

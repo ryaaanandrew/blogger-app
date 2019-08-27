@@ -16,6 +16,7 @@ const PostContextProvider = props => {
     newScore--;
     updateScore({ variables: { postId, score: newScore }});
   };
+  // need to implement limits on voting...add an array of users who voted on post...search for users in post...loop through array and if user has already voted on it, break.
   return(
     <PostContext.Provider value={{ upVote, downVote }}>
       { props.children }

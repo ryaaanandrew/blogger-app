@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
 import { GET_POST } from '../queries/queries';
+import CommentForm from './CommentForm';
 
 const PostDetails = props => {
   const { loading, error, data } = useQuery(GET_POST, {
@@ -15,8 +16,11 @@ const PostDetails = props => {
 
   return(
     <Wrapper>
+    <PostDetailsContainer>
       <Title>{ data.post.title }, posted by { data.post.creator.username }</Title>
       <Content>{ data.post.content }</Content>
+    </PostDetailsContainer>
+    <CommentForm />
     </Wrapper>
   );
 };
@@ -24,6 +28,12 @@ const PostDetails = props => {
 export default PostDetails;
 
 const Wrapper = styled.div`
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+`
+
+const PostDetailsContainer = styled.div`
   border: 1px solid black;
   width: 60%;
   margin: 3rem auto;

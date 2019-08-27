@@ -9,7 +9,6 @@ const SignUp = props => {
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [formErrors, setFormErrors] = useState([]);
-
   const [createUser, { error }] = useMutation(CREATE_USER);
 
   const handleSubmit = e => {
