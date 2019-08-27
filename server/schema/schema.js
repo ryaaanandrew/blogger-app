@@ -87,6 +87,16 @@ const Mutation = new GraphQLObjectType({
           return post.save();
         }
       },
+      updateScore: {
+        type: PostType,
+        args: {
+          postId: { type: new GraphQLNonNull(GraphQLID) },
+          score: { type: new GraphQLNonNull(GraphQLInt) }
+        },
+        resolve(parent, args){
+          return Post.findByIdAndUpdate(args.postId, {$set: { score: args.score }}, {new: true});
+        } 
+      },
       createUser: {
         type: UserType,
         args: {

@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { PostContext } from '../context/postContext';
 
 const PostListItem = props => {
   const { post } = props;
+  const {upVote, downVote}= useContext(PostContext);
   return(
     <Wrapper>
-      <div>{props.i}</div>
+      <div>{ post.score }</div>
       <BtnWrapper>
-        <Btn>up</Btn>
-        <Btn>down</Btn>
+        <Btn onClick={() => upVote(post.id, post.score)}>up</Btn>
+        <Btn onClick={() => downVote(post.id, post.score)}>down</Btn>
       </BtnWrapper>
       <Post>
-        <Title><Link to={`post/${post.id}`}>{post.title}</Link></Title>
+        <Title><Link to={`post/${post.id}`}>{ post.title }</Link></Title>
         <SubTitle>Submitted by: { post.creator.username }</SubTitle>
       </Post>
     </Wrapper>

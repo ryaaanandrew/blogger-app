@@ -6,10 +6,10 @@ export const getPostsQuery = gql`
       id
       title
       content
+      score
       creator {
         id
         username
-        email
       }
     }
   }
@@ -20,6 +20,7 @@ export const GET_POST = gql`
     post(id: $id) {
       title
       content
+      score
       id
       creator {
         id
@@ -31,7 +32,7 @@ export const GET_POST = gql`
 `
 
 export const CREATE_POST = gql`
-  mutation ($title: String!, $content: String!, $creatorId: String!) {
+  mutation($title: String!, $content: String!, $creatorId: String!) {
     createPost(title: $title, content: $content, creatorId: $creatorId) {
       id
       title
@@ -41,6 +42,16 @@ export const CREATE_POST = gql`
         email
         username
       }
+    }
+  }
+`
+
+export const UPDATE_SCORE = gql`
+  mutation($postId: ID!, $score: Int!) {
+    updateScore(postId: $postId, score: $score) {
+      id
+      title
+      score
     }
   }
 `

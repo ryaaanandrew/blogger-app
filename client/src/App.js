@@ -3,6 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from '@apollo/react-hooks';
 import AuthContextProvider from './context/authContext';
+import PostContentProvider from './context/postContext';
 import NavBar from './components/NavBar';
 import PostList from './components/PostList';
 import CreatePost from './components/CreatePost';
@@ -20,14 +21,16 @@ function App() {
     <ApolloProvider client={client}>
       <BrowserRouter>
         <AuthContextProvider>
-          <NavBar />
-          <Switch>
-            <Route path='/' exact component={PostList} />
-            <Route path='/createpost' component={CreatePost} />
-            <Route path='/post/:id' component={PostDetails} />
-            <Route path='/signup' component={SignUp} />
-            <Route path='/login' component={Login} />
-          </Switch>          
+          <PostContentProvider>
+            <NavBar />
+            <Switch>
+              <Route path='/' exact component={PostList} />
+              <Route path='/createpost' component={CreatePost} />
+              <Route path='/post/:id' component={PostDetails} />
+              <Route path='/signup' component={SignUp} />
+              <Route path='/login' component={Login} />
+            </Switch>   
+          </PostContentProvider>      
         </AuthContextProvider>
       </BrowserRouter>
     </ApolloProvider>

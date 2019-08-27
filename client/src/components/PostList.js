@@ -13,7 +13,7 @@ const PostList = () => {
     <Wrapper>
       <h1>Posts</h1>
       <ul>
-        { data && data.posts.map((post, i) => <PostListItem post={post} index={i} />) }
+        { data && data.posts.map((post, i) => <PostListItem post={post} index={i} key={post.id}/>) }
       </ul>
     </Wrapper>
   );
