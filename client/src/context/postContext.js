@@ -6,11 +6,13 @@ export const PostContext = createContext();
 
 const PostContextProvider = props => {
   const [updateScore, { err, data }] = useMutation(UPDATE_SCORE);
+
   const upVote = (postId, score) => {
     let newScore = score;
     newScore++;
     updateScore({ variables: { postId, score: newScore }});
   };
+
   const downVote = (postId, score) => {
     let newScore = score;
     newScore--;

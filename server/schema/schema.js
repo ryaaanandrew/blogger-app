@@ -22,6 +22,7 @@ const PostType = new GraphQLObjectType({
     title: { type: GraphQLString },
     content: { type: GraphQLString },
     score: { type: GraphQLInt },
+    comments: { type: new GraphQLList(CommentType)},
     creator: {
       type: UserType,
       resolve(parent, args) {

@@ -14,7 +14,7 @@ const CommentForm = () => {
           rows="15" 
           onChange={e => setComment(e.target.value)}
           value={comment}
-          placeHolder="leave a comment..."
+          placeholder="leave a comment..."
           >
         </textarea>
       </Form>

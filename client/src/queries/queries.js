@@ -15,16 +15,32 @@ export const getPostsQuery = gql`
   }
 `
 
-export const GET_POST = gql`
+export const FETCH_POST = gql`
   query($id: ID) {
     post(id: $id) {
       title
       content
       score
       id
+      comments{
+        comment
+        creator {
+          username
+        }
+      }
       creator {
         id
         email
+        username
+      }
+    }
+  }
+`
+export const GET_COMMENTS = gql`
+  query($postId: ID) {
+    fetchComments(postId: $postId) {
+      comment
+      creator {
         username
       }
     }

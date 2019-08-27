@@ -1,18 +1,20 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
-import { GET_POST } from '../queries/queries';
+import { FETCH_POST, GET_COMMENTS } from '../queries/queries';
 import CommentForm from './CommentForm';
 
 const PostDetails = props => {
-  const { loading, error, data } = useQuery(GET_POST, {
+  const { loading, error, data } = useQuery(FETCH_POST, {
     variables: {
       id:  props.match.params.id
     }
   });
+
+  console.log(data.post)
   
   if(loading){ return <h1>loading...</h1> };
-  if(error){ return <h1>an error has occured...</h1> };
+  if(error || data === [] ){ return <h1>an error has occured...</h1> };
 
   return(
     <Wrapper>
