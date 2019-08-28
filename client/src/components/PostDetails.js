@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { useQuery } from '@apollo/react-hooks';
 import { FETCH_POST, GET_COMMENTS } from '../queries/queries';
 import CommentForm from './CommentForm';
+import CommentList from './CommentList';
 
 const PostDetails = props => {
   const { loading, error, data } = useQuery(FETCH_POST, {
@@ -11,18 +12,19 @@ const PostDetails = props => {
     }
   });
 
-  console.log(data.post)
-  
   if(loading){ return <h1>loading...</h1> };
   if(error || data === [] ){ return <h1>an error has occured...</h1> };
 
   return(
     <Wrapper>
-    <PostDetailsContainer>
-      <Title>{ data.post.title }, posted by { data.post.creator.username }</Title>
-      <Content>{ data.post.content }</Content>
-    </PostDetailsContainer>
-    <CommentForm />
+        <PostCommentContainer>
+          <PostDetailsContainer>
+            <Title>{ data.post.title }, posted by { data.post.creator.username }</Title>
+            <Content>{ data.post.content }</Content>
+          </PostDetailsContainer>
+          { data.post.comments.map((comment, i) => <CommentList userComment={comment} key={i} /> )}
+      </PostCommentContainer>
+      <CommentForm postId={data.post.id}/>
     </Wrapper>
   );
 };
@@ -32,6 +34,13 @@ export default PostDetails;
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-around;
+  align-items: center;
+`
+const PostCommentContainer = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
 `
 

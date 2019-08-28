@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
+import { PostContext } from '../context/postContext';
+import { AuthContext } from '../context/authContext';
 
-const CommentForm = () => {
+const CommentForm = props => {
   const [comment, setComment] = useState('');
+  const postContext = useContext(PostContext);
+  const authContext = useContext(AuthContext);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    console.log(authContext.userId);
+    console.log(props.postId)
+    postContext.createComment({ variables: { postId: props.postId, creatorId: authContext.userId, comment: comment } })
+  };
 
   return(
     <Wrapper>
-      <Form>
+      <Form onSubmit={e => handleSubmit(e)}>
         <Label htmlFor="comment">Leave a comment</Label>
         <textarea 
           name="comment" 
@@ -17,6 +28,7 @@ const CommentForm = () => {
           placeholder="leave a comment..."
           >
         </textarea>
+        <button>Submit</button>
       </Form>
     </Wrapper>
   );

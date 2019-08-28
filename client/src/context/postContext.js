@@ -1,11 +1,12 @@
 import React, { createContext } from 'react';
 import { useMutation } from '@apollo/react-hooks';
-import { UPDATE_SCORE } from '../queries/queries';
+import { UPDATE_SCORE, CREATE_COMMENT } from '../queries/queries';
 
 export const PostContext = createContext();
 
 const PostContextProvider = props => {
-  const [updateScore, { err, data }] = useMutation(UPDATE_SCORE);
+  const [updateScore] = useMutation(UPDATE_SCORE);
+  const [createComment] = useMutation(CREATE_COMMENT);
 
   const upVote = (postId, score) => {
     let newScore = score;
@@ -20,7 +21,7 @@ const PostContextProvider = props => {
   };
   // need to implement limits on voting...add an array of users who voted on post...search for users in post...loop through array and if user has already voted on it, break.
   return(
-    <PostContext.Provider value={{ upVote, downVote }}>
+    <PostContext.Provider value={{ upVote, downVote, createComment }}>
       { props.children }
     </PostContext.Provider>
   );

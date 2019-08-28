@@ -123,7 +123,7 @@ const Mutation = new GraphQLObjectType({
           return post.save();
         }
       },
-      addComment: {
+      createComment: {
         type: CommentType,
         args: {
           postId: { type: new GraphQLNonNull(GraphQLID) },
