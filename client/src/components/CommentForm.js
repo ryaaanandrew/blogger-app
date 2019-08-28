@@ -1,23 +1,15 @@
 import React, { useState, useContext } from 'react';
 import styled from 'styled-components';
+import { FETCH_POST } from '../queries/queries';
 import { PostContext } from '../context/postContext';
 import { AuthContext } from '../context/authContext';
 
 const CommentForm = props => {
   const [comment, setComment] = useState('');
-  const postContext = useContext(PostContext);
-  const authContext = useContext(AuthContext);
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    console.log(authContext.userId);
-    console.log(props.postId)
-    postContext.createComment({ variables: { postId: props.postId, creatorId: authContext.userId, comment: comment } })
-  };
 
   return(
     <Wrapper>
-      <Form onSubmit={e => handleSubmit(e)}>
+      <Form onSubmit={e => props.handleSubmit(e, comment)}>
         <Label htmlFor="comment">Leave a comment</Label>
         <textarea 
           name="comment" 
